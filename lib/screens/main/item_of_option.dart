@@ -2,7 +2,7 @@ import 'package:bugloos_player/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../bloc/counter_bloc.dart' as bloc;
 import 'package:provider/provider.dart';
-
+import 'package:line_icons/line_icons.dart';
 import '../../responsive.dart';
 
 class ItemOfOption extends StatefulWidget {
@@ -18,7 +18,7 @@ class _ItemOfOptionState extends State<ItemOfOption> {
   Widget build(BuildContext context) {
     return Container(
 //        padding: EdgeInsets.only(top: kIsWeb ? kDefaultPadding : 0),
-        color: kBackBlack,
+        color: kBottomBar,
         child: Responsive.isMobile(context)? Expanded(
           flex: 1,
           child: Row(
@@ -85,7 +85,7 @@ class _ItemOfOptionState extends State<ItemOfOption> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.person,
+                    Icon(LineIcons.spotify,
                       color: Provider.of<bloc.ManagePageState>(context).pageItems=="premium"?
                       kBgLightColor:kGrayColor,
                     ),

@@ -23,7 +23,6 @@ class _RouteScreenState extends State<RouteScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: const EdgeInsets.only(top: kIsWeb ?  0: kDefaultPaddingSafeArea),
         color: kSecondaryColor,
         child: Provider.of<bloc.ManagePageState>(context).pageItems=="home"?const HomeScreen():
         Provider.of<bloc.ManagePageState>(context).pageItems=="search"?const SearchScreen():

@@ -1,6 +1,9 @@
+import 'package:bugloos_player/bloc/counter_bloc.dart' as bloc;
+import 'package:bugloos_player/components/current_track.dart';
 import 'package:bugloos_player/screens/home/route_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bugloos_player/responsive.dart';
+import 'package:provider/src/provider.dart';
 
 import 'item_of_option.dart';
 
@@ -11,6 +14,8 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // It provide us the width and height
     Size _size = MediaQuery.of(context).size;
+    final selected = context.watch<bloc.ManagePageState>().selected;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Responsive(
@@ -19,18 +24,19 @@ class MainScreen extends StatelessWidget {
             const Expanded(
                 flex: 10,
                 child: RouteScreen()),
-            Expanded(
+            if(selected!=null)CurrentTrack(),
+            const Expanded(
                 flex: 1,
                 child: ItemOfOption()),
           ],
         ),
         tablet: Row(
-          children: [
+          children: const [
             Expanded(
               flex: 4,
               child: ItemOfOption(),
             ),
-            const Expanded(
+             Expanded(
               flex: 10,
               child: RouteScreen(),
             ),

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Bugloos Player',
           theme: ThemeData(),
-          home: MainScreen()
+          home: const MainScreen()
       ),
     );
   }
