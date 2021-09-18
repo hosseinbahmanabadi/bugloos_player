@@ -19,14 +19,14 @@ class Song {
   final String title;
   final String artist;
   final String album;
-  final String duration;
+  final String imageURL;
 
   const Song({
     required this.id,
     required this.title,
     required this.artist,
     required this.album,
-    required this.duration,
+    required this.imageURL
   });
 }
 
@@ -36,28 +36,31 @@ const _ebiLalehzarMusic = [
     title: 'Jahan Bedoone To',
     artist: 'Ebi',
     album: 'Lalehzar',
-    duration: '4:03',
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
   ),
   Song(
     id: '1',
     title: 'Ghalb Ghaap',
     artist: 'Ebi',
     album: 'Lalehzar',
-    duration: '3:17',
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
+
   ),
   Song(
     id: '2',
     title: 'Lalehzar',
     artist: 'Ebi',
     album: 'Lalehzar',
-    duration: '4:56',
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
+
   ),
   Song(
     id: '3',
     title: 'Koocheye Nastaran',
     artist: 'Ebi',
     album: 'Lalehzar',
-    duration: '4:20',
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
+
   ),
 ];
 

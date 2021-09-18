@@ -35,6 +35,8 @@ const titleItemOfOptionNotSelected = TextStyle(color: kGrayColor, fontSize: 12);
 const titleBgLightColorTextStyle = TextStyle(color: kBgLightColor, fontSize: 22, fontWeight: FontWeight.bold);
 const descriptionBgLightColorTextStyle = TextStyle(color: kBgLightColor, fontSize: 12);
 const playListTitleBgLightColorTextStyle = TextStyle(color: kBgLightColor, fontSize: 16);
+const currentDisplayArtistGrayColorTextStyle = TextStyle(color: Colors.grey, fontSize: 16);
+
 
 const playListTitleSelectedColorTextStyle = TextStyle(color: kGreenColor, fontSize: 16);
 const descriptionSelectedColorTextStyle = TextStyle(color: kGreenColor, fontSize: 12);
