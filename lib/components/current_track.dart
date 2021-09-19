@@ -12,9 +12,49 @@ class CurrentTrack extends StatelessWidget {
       height: 55.0,
       width: double.infinity,
       color: kBottomBar,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: _TrackInfo(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 0,
+            child: Container(
+                alignment: Alignment.centerLeft,
+                width: double.infinity,
+                height: 1,
+                child:SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    activeTrackColor: Colors.white,
+                    inactiveTrackColor: Colors.transparent,
+                    activeTickMarkColor: Colors.white,
+                    thumbColor: Colors.white,
+                    trackHeight: 1,
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 1,
+                    ),
+                  ),
+                  child: Slider(
+                    value: context.watch<bloc.ManagePageState>().position.inSeconds.toDouble() !=
+                        context.watch<bloc.ManagePageState>().duration.inSeconds.toDouble()
+                        ? context.watch<bloc.ManagePageState>().position.inSeconds.toDouble()
+                        : context.watch<bloc.ManagePageState>().setToChangeDouble,
+                    min: 0,
+                    max: context.watch<bloc.ManagePageState>().duration.inSeconds.toDouble(),
+                    onChanged: (double value) {
+                      context.read<bloc.ManagePageState>().seekToSecond(value.toInt());
+                      value = value;
+                    },
+                  ),
+                ),
+            ),
+          ),
+          Expanded(
+            flex: 10,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _TrackInfo(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -28,7 +68,7 @@ class _TrackInfo extends StatelessWidget {
     if (selected == null) return const SizedBox.shrink();
     return InkWell(
       onTap: (){
-        Navigator.of(context).push(_createRouteToCurrentTrack(selected));
+        Navigator.of(context).push(_createRouteToCurrentTrack());
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,9 +107,12 @@ class _TrackInfo extends StatelessWidget {
           ),
           IconButton(
             padding: const EdgeInsets.only(),
-            icon: const Icon(Icons.play_arrow, color: kBgLightColor,),
+            icon: context.watch<bloc.ManagePageState>().isPlayPressed == true?
+            const Icon(Icons.pause, color: kBgLightColor,):const Icon(Icons.play_arrow, color: kBgLightColor,),
             iconSize: 34.0,
-            onPressed: () {},
+            onPressed: () {
+              context.read<bloc.ManagePageState>().changeAudioPlayPause(selected.audioURL);
+            },
             )
         ],
       ),
@@ -77,9 +120,9 @@ class _TrackInfo extends StatelessWidget {
   }
 }
 
-Route _createRouteToCurrentTrack(trackInfo) {
+Route _createRouteToCurrentTrack() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>  CurrentTrackDisplay(trackInfo: trackInfo),
+    pageBuilder: (context, animation, secondaryAnimation) =>  CurrentTrackDisplay(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;

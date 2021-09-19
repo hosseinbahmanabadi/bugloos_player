@@ -1,17 +1,24 @@
+import 'package:bugloos_player/components/current_option_track.dart';
 import 'package:bugloos_player/components/data.dart';
 import 'package:bugloos_player/config/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 import '../../responsive.dart';
+import '../../bloc/counter_bloc.dart' as bloc;
+
 
 class CurrentTrackDisplay extends StatefulWidget {
-  CurrentTrackDisplay({Key? key, this.trackInfo}) : super(key: key);
-  Song? trackInfo;
+  const CurrentTrackDisplay({Key? key}) : super(key: key);
 
   @override
   _CurrentTrackDisplayState createState() => _CurrentTrackDisplayState();
 }
 
 class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,7 +38,7 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text("PLAYING FROM PLAYLIST", style: descriptionBgLightColorTextStyle,),
-              Text(widget.trackInfo!.album, style: playListTitleBgLightColorTextStyle,)
+              Text(context.read<bloc.ManagePageState>().selected!.album, style: playListTitleBgLightColorTextStyle,)
             ],
           ),
           leading: Padding(
@@ -44,14 +51,18 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
                   },
                   child: Container(
                     padding: const EdgeInsets.all(6.0),
-                    child: const Icon(Icons.keyboard_arrow_down_rounded),
+                    child: const Icon(Icons.keyboard_arrow_down_rounded, size: 40,),
                   ),
                 ),
               ],
             ),
           ),
-          actions: const [
-            Icon(Icons.more_vert, color: kBgLightColor,),
+          actions: [
+            InkWell(
+                onTap: (){
+                  Navigator.of(context).push(_createRouteToOptionTrack());
+                },
+                child: Icon(Icons.more_vert, color: kBgLightColor,)),
             SizedBox(width: 20.0),
           ],
         ),
@@ -74,15 +85,143 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
                   Padding(
                       padding: EdgeInsets.all(Responsive.isMobile(context)?kDefaultPaddingAllSmall:kDefaultPadding),
                       child:  Image.network(
-                        widget.trackInfo!.imageURL,
+                        context.read<bloc.ManagePageState>().selected!.imageURL,
                         height: 350.0,
                         width: 350.0,
                         fit: BoxFit.cover,
                       ),
                     ),
                  const SizedBox(height: 50,),
-                 Text(widget.trackInfo!.title, style: titleBgLightColorTextStyle,),
-                 Text(widget.trackInfo!.artist, style: currentDisplayArtistGrayColorTextStyle,)
+                 Text(context.watch<bloc.ManagePageState>().selected!.title.toString(), style: titleBgLightColorTextStyle,),
+                 Text(context.read<bloc.ManagePageState>().selected!.artist, style: currentDisplayArtistGrayColorTextStyle,),
+                 Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        width: double.infinity,
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Colors.white,
+                            inactiveTrackColor: Colors.grey.shade600,
+                            activeTickMarkColor: Colors.white,
+                            thumbColor: Colors.white,
+                            trackHeight: 3,
+                            thumbShape: const RoundSliderThumbShape(
+                              enabledThumbRadius: 4,
+                            ),
+                          ),
+                          child: Slider(
+                            value: context.watch<bloc.ManagePageState>().position.inSeconds.toDouble() !=
+                                context.watch<bloc.ManagePageState>().duration.inSeconds.toDouble()
+                                ? context.watch<bloc.ManagePageState>().position.inSeconds.toDouble()
+                                : context.watch<bloc.ManagePageState>().setToChangeDouble,
+                            min: 0,
+                            max: context.watch<bloc.ManagePageState>().duration.inSeconds.toDouble(),
+                            onChanged: (double value) {
+                              context.read<bloc.ManagePageState>().seekToSecond(value.toInt());
+                                value = value;
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "${context.watch<bloc.ManagePageState>().position.inMinutes.toInt()}:${(context.watch<bloc.ManagePageState>().position.inSeconds % 60).toString().padLeft(2, "0")}",
+                              style: TextStyle(
+                                color: Colors.grey.shade400,
+//                            fontFamily: "ProximaNovaThin",
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "${context.watch<bloc.ManagePageState>().duration.inMinutes.toInt()}:${(context.watch<bloc.ManagePageState>().duration.inSeconds % 60).toString().padLeft(2, "0")}",
+                              style: TextStyle(
+                                color: Colors.grey.shade400,
+//                            fontFamily: "ProximaNovaThin",
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 22, right: 22),
+                    width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        context.watch<bloc.ManagePageState>().trackIdFavoriteList.contains(context.read<bloc.ManagePageState>().selected!.id)?
+                            InkWell(
+                                onTap: (){
+                                  context.read<bloc.ManagePageState>().favoriteTrack(context.read<bloc.ManagePageState>().selected!.id);
+                                },
+                                child: const Icon(Icons.favorite, color: kGreenColor,)):InkWell(
+                          onTap: (){
+                            context.read<bloc.ManagePageState>().favoriteTrack(context.read<bloc.ManagePageState>().selected!.id);
+                          },
+                                  child: Icon(
+                          Icons.favorite_border_outlined,
+                          color: Colors.grey.shade400,
+                        ),
+                                ),
+                        InkWell(
+                          onTap: (){
+                            context.read<bloc.ManagePageState>().prevTrack(context.read<bloc.ManagePageState>().selected);
+                          },
+                          child: const Icon(
+                            Icons.skip_previous,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 90,
+                          width: 90,
+                          child: Center(
+                            child: IconButton(
+                              iconSize: 70,
+                              alignment: Alignment.center,
+                              icon: (context.watch<bloc.ManagePageState>().isPlayPressed == true)
+                                  ? const Icon(
+                                Icons.pause_circle_filled,
+                                color: Colors.white,
+                              )
+                                  : const Icon(
+                                Icons.play_circle_filled,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                context.read<bloc.ManagePageState>().changeAudioPlayPause(context.read<bloc.ManagePageState>().selected!.audioURL);
+                              },
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            context.read<bloc.ManagePageState>().nextTrack(context.read<bloc.ManagePageState>().selected);
+                          },
+                          child: const Icon(
+                            Icons.skip_next,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                        Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.grey.shade400,
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ],
               ),
             ):const Center(
@@ -92,4 +231,22 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
       ),
     );
   }
+}
+Route _createRouteToOptionTrack() {
+  return PageRouteBuilder(
+    opaque: false,
+    pageBuilder: (context, animation, secondaryAnimation) =>  CurrentOptionTrackDisplay(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }

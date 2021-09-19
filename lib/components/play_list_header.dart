@@ -1,4 +1,6 @@
 import 'package:bugloos_player/config/constants.dart';
+import 'package:provider/src/provider.dart';
+import '../bloc/counter_bloc.dart' as bloc;
 import 'package:flutter/material.dart';
 import 'data.dart';
 
@@ -46,7 +48,9 @@ class _PlaylistButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        context.read<bloc.ManagePageState>().selectTrack(ebiLalehzarPlaylist.songs.first);
+      },
       child: Container(
         padding: const EdgeInsets.fromLTRB(50, 15, 50, 15),
           decoration: BoxDecoration(

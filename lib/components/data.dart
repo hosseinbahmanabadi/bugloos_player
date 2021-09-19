@@ -20,13 +20,15 @@ class Song {
   final String artist;
   final String album;
   final String imageURL;
+  final String audioURL;
 
   const Song({
     required this.id,
     required this.title,
     required this.artist,
     required this.album,
-    required this.imageURL
+    required this.imageURL,
+    required this.audioURL
   });
 }
 
@@ -36,14 +38,17 @@ const _ebiLalehzarMusic = [
     title: 'Jahan Bedoone To',
     artist: 'Ebi',
     album: 'Lalehzar',
-    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg',
+    audioURL: 'https://webcare.ir/hossein/bugloos/jahaan_bedoone_to.mp3'
   ),
   Song(
     id: '1',
     title: 'Ghalb Ghaap',
     artist: 'Ebi',
     album: 'Lalehzar',
-    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg',
+    audioURL: 'https://webcare.ir/hossein/bugloos/Ghalb_Ghaap.mp3'
+
 
   ),
   Song(
@@ -51,16 +56,16 @@ const _ebiLalehzarMusic = [
     title: 'Lalehzar',
     artist: 'Ebi',
     album: 'Lalehzar',
-    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
-
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg',
+    audioURL: 'https://webcare.ir/hossein/bugloos/Lalehzaar.mp3'
   ),
   Song(
     id: '3',
     title: 'Koocheye Nastaran',
     artist: 'Ebi',
     album: 'Lalehzar',
-    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg'
-
+    imageURL: 'https://webcare.ir/hossein/bugloos/lalehzar.jpg',
+    audioURL: 'https://webcare.ir/hossein/bugloos/Koocheye_Nastaran.mp3'
   ),
 ];
 
