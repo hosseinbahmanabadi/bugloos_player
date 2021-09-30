@@ -1,5 +1,5 @@
-# bugloos_player
-Bugloos Music Player
+# spotify_player
+Spotify Music Player
 ## Getting Started
 
 <table>
