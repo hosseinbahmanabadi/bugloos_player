@@ -9,9 +9,11 @@ class CurrentTrack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55.0,
       width: double.infinity,
-      color: kBottomBar,
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: kBgLightColor,width: 0.5)),
+        color: kBottomBar,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,7 +52,7 @@ class CurrentTrack extends StatelessWidget {
           Expanded(
             flex: 10,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: _TrackInfo(),
             ),
           ),
@@ -75,45 +77,55 @@ class _TrackInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
         children: [
-          IconButton(
-            icon: context.watch<bloc.ManagePageState>().trackIdFavoriteList.contains(selected.id)?
-            const Icon(Icons.favorite, color: kGreenColor,):const Icon(Icons.favorite_border_outlined, color: kGrayColor,),
-            onPressed: () {
-              context.read<bloc.ManagePageState>().favoriteTrack(selected.id);
-            },
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: context.watch<bloc.ManagePageState>().trackIdFavoriteList.contains(selected.id)?
+              const Icon(Icons.favorite, color: kGreenColor,):const Icon(Icons.favorite_border_outlined, color: kGrayColor,),
+              onPressed: () {
+                context.read<bloc.ManagePageState>().favoriteTrack(selected.id);
+              },
+            ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                selected.title,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(color: Colors.grey[300], fontSize: 12.0, fontWeight: FontWeight.bold),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Icon(Icons.circle, color: Colors.grey[300], size: 5,),
-              ),
-              Text(
-                selected.artist,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(color: Colors.grey[300], fontSize: 12.0),
-              )
-            ],
+          Expanded(
+            flex: 4,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  selected.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(color: Colors.grey[300], fontSize: 12.0, fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(Icons.circle, color: Colors.grey[300], size: 5,),
+                ),
+                Text(
+                  selected.artist,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(color: Colors.grey[300], fontSize: 12.0),
+                )
+              ],
+            ),
           ),
-          IconButton(
-            padding: const EdgeInsets.only(),
-            icon: context.watch<bloc.ManagePageState>().isPlayPressed == true?
-            const Icon(Icons.pause, color: kBgLightColor,):const Icon(Icons.play_arrow, color: kBgLightColor,),
-            iconSize: 34.0,
-            onPressed: () {
-              context.read<bloc.ManagePageState>().changeAudioPlayPause(selected.audioURL);
-            },
-            )
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              padding: const EdgeInsets.only(),
+              icon: context.watch<bloc.ManagePageState>().isPlayPressed == true?
+              const Icon(Icons.pause, color: kBgLightColor,):const Icon(Icons.play_arrow, color: kBgLightColor,),
+              iconSize: 34.0,
+              onPressed: () {
+                context.read<bloc.ManagePageState>().changeAudioPlayPause(selected.audioURL);
+              },
+              ),
+          )
         ],
       ),
     );

@@ -21,6 +21,8 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    var _size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onVerticalDragUpdate: ((onPanDown){
         if(onPanDown.globalPosition.distance>300){
@@ -32,7 +34,8 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leadingWidth: 120.0,
+//          leadingWidth: 120.0,
+          centerTitle: true,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,18 +46,14 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
           ),
           leading: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(6.0),
-                    child: const Icon(Icons.keyboard_arrow_down_rounded, size: 40,),
-                  ),
-                ),
-              ],
+            child: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(6.0),
+                child: const Icon(Icons.keyboard_arrow_down_rounded, size: 40,),
+              ),
             ),
           ),
           actions: [
@@ -62,8 +61,8 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
                 onTap: (){
                   Navigator.of(context).push(_createRouteToOptionTrack());
                 },
-                child: Icon(Icons.more_vert, color: kBgLightColor,)),
-            SizedBox(width: 20.0),
+                child: const Icon(Icons.more_vert, color: kBgLightColor,)),
+            const SizedBox(width: 20.0),
           ],
         ),
         body: Container(
@@ -81,24 +80,24 @@ class _CurrentTrackDisplayState extends State<CurrentTrackDisplay> {
             child: Responsive.isMobile(context)? Center(
               child:Column(
                 children: [
-                  const SizedBox(height: 190,),
+                  SizedBox(height: Responsive.isMobile(context)?_size.height*0.15:190,),
                   Padding(
                       padding: EdgeInsets.all(Responsive.isMobile(context)?kDefaultPaddingAllSmall:kDefaultPadding),
                       child:  Image.network(
                         context.read<bloc.ManagePageState>().selected!.imageURL,
-                        height: 350.0,
-                        width: 350.0,
+                        height: Responsive.isMobile(context)?_size.width*0.65:350,
+                        width: Responsive.isMobile(context)?_size.width*0.65:350,
                         fit: BoxFit.cover,
                       ),
                     ),
-                 const SizedBox(height: 50,),
+                 SizedBox(height: Responsive.isMobile(context)?_size.height*0.007:50,),
                  Text(context.watch<bloc.ManagePageState>().selected!.title.toString(), style: titleBgLightColorTextStyle,),
                  Text(context.read<bloc.ManagePageState>().selected!.artist, style: currentDisplayArtistGrayColorTextStyle,),
                  Stack(
                     alignment: Alignment.bottomCenter,
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(left: 5, right: 5),
+                        padding: const EdgeInsets.only(left: 5, right: 5),
                         width: double.infinity,
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(

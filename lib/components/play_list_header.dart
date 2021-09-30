@@ -2,6 +2,7 @@ import 'package:bugloos_player/config/constants.dart';
 import 'package:provider/src/provider.dart';
 import '../bloc/counter_bloc.dart' as bloc;
 import 'package:flutter/material.dart';
+import '../responsive.dart';
 import 'data.dart';
 
 
@@ -15,22 +16,28 @@ class PlaylistHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   var _size = MediaQuery.of(context).size;
     return Column(
       children: [
-        Column(
-          children: [
-            const SizedBox(height: 80,),
-            Image.network(
-              playlist.imageURL,
-              height: 200.0,
-              width: 200.0,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 12.0),
-            Text(playlist.name, style: titleBgLightColorTextStyle,),
-            const SizedBox(height: 12,),
-            Text(playlist.description, style: descriptionBgLightColorTextStyle,)
-          ],
+        Container(
+          constraints: BoxConstraints(maxWidth: Responsive.isMobile(context)?_size.width*0.45:200),
+          child: Column(
+            children: [
+              SizedBox(height: Responsive.isMobile(context)?_size.height*0.09:80,),
+              Image.network(
+                playlist.imageURL,
+                height: Responsive.isMobile(context)?_size.width*0.45:200,
+                width: Responsive.isMobile(context)?_size.width*0.45:200,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 12.0),
+              FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(playlist.name, style: titleBgLightColorTextStyle,)),
+              const SizedBox(height: 12,),
+              Text(playlist.description, style: descriptionBgLightColorTextStyle,)
+            ],
+          ),
         ),
         const SizedBox(height: 5.0),
         const _PlaylistButtons(),

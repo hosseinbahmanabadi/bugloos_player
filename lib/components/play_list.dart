@@ -84,7 +84,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             ),
             children: [
               PlaylistHeader(playlist: widget.playlist),
-              const SizedBox(height: 15,),
+              SizedBox(height: 15,),
               TracksList(tracks: widget.playlist.songs),
             ],
           ),

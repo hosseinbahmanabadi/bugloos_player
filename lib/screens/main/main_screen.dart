@@ -24,7 +24,9 @@ class MainScreen extends StatelessWidget {
             const Expanded(
                 flex: 10,
                 child: RouteScreen()),
-            if(selected!=null)CurrentTrack(),
+            if(selected!=null)Expanded(
+                flex: 1,
+                child: CurrentTrack()),
             const Expanded(
                 flex: 1,
                 child: ItemOfOption()),
