@@ -16,7 +16,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         child: Responsive.isMobile(context)? Center(
           child:Padding(
               padding: EdgeInsets.all(Responsive.isMobile(context)?kDefaultPaddingAllSmall:kDefaultPadding),
-              child: const Text("Library Screen"),
+              child: const Text("Library Spotify Screen"),
             ),
 
         ):const Center(
